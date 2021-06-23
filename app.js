@@ -104,7 +104,7 @@ app.get("/:listName", (req, res) => {
       if (!results) {
         const list = new List ({
           name: customListName,
-          items: defaultItems
+          items: []
         });
         list.save();
 
