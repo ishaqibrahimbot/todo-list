@@ -23,20 +23,6 @@ const itemSchema = new mongoose.Schema ({
 //Initialize model for item schema
 const Item = mongoose.model("Item", itemSchema);
 
-//Make default list items
-const lewisArticles = new Item ({
-  name: "Complete Lewis Articles"
-});
-
-const grePrep = new Item ({
-  name: "GRE prep 1-2 hours"
-});
-
-const exercise = new Item ({
-  name: "Running (sprints)"
-});
-
-const defaultItems = [lewisArticles, grePrep, exercise];
 
 //Define schema for different lists
 const listSchema = new mongoose.Schema ({
@@ -55,21 +41,8 @@ app.get("/", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-
-      if (items.length === 0) {
-        Item.insertMany(defaultItems, (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("Successfully inserted default items!");
-          }
-        });
-
-        res.redirect('/');
-      } else {
         const day = date.getDate();
         res.render("list", {listTitle: day, newListItems: items});
-      }
     }
   });
 });
@@ -118,8 +91,6 @@ app.post("/delete", (req, res) => {
       }
     });
   }
-
-
 });
 
 //Implement get route for custom lists using express route parameters
@@ -145,13 +116,7 @@ app.get("/:listName", (req, res) => {
   });
 });
 
-
-//Get function for about page
-app.get("/about", function(req, res){
-  res.render("about");
-});
-
-//Set up the server to work on the port 3000
+//Set up the server to work on the heroku port
 app.listen(process.env.PORT, function() {
   console.log("Server started successfully");
 });
